@@ -72,3 +72,11 @@ class TestShoesViewSetDelete:
         response = api_client.delete('/api/v1/shoes/1/')
 
         assert 204 == response.status_code
+
+
+class TestShoesUploadAPIViewPost:
+    def test_must_return_not_allowed(self, api_client, csv_file):
+        response = api_client.post('/api/v1/shoes/csv/', data=csv_file)
+
+        assert 201 == response.status_code
+        assert 6 == len(response.data)

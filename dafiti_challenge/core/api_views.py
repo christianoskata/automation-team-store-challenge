@@ -33,7 +33,6 @@ class ShoesUploadAPIView(generics.CreateAPIView):
                     row_data[header] = value
 
                 serializer = ShoesSerializer(data=row_data)
-                response.append(row_data)
                 serializer.is_valid()
                 instance = serializer.save()
                 response.append(model_to_dict(instance))
