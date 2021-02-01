@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:13.1-alpine
+    volumes:
+      - /tmp/postgres_data:/var/lib/postgresql/data
+    networks:
+      - dafiti-net
+    ports:
+      - "5432:5432"
+    env_file: .env
+
+networks:
+  dafiti-net:
+    name: dafiti-net
+    ipam:
+      config:
+      - subnet: 182.20.0.0/16

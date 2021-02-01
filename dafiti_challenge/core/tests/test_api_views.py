@@ -3,7 +3,7 @@ import pytest
 
 class TestShoesViewSetGet:
 
-    @pytest.mark.orient_db()
+    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoe, shoe_data):
         response = api_client.get('/api/v1/shoes/1/')
 
@@ -15,7 +15,7 @@ class TestShoesViewSetGet:
             assert value == shoe.get(f'{key}')
         assert '180.00' == shoe.get('gross_price')
 
-    @pytest.mark.orient_db()
+    @pytest.mark.django_db()
     def test_must_return_not_found(self, api_client):
         response = api_client.get('/api/v1/shoes/1/')
         assert 404 == response.status_code
@@ -23,7 +23,7 @@ class TestShoesViewSetGet:
 
 class TestShoesViewSetList:
 
-    @pytest.mark.orient_db()
+    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoes_list):
         response = api_client.get('/api/v1/shoes/')
 
@@ -33,9 +33,9 @@ class TestShoesViewSetList:
 
 class TestShoesViewSetPatch:
 
-    @pytest.mark.orient_db()
+    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoe, shoe_data):
-        response = api_client.patch('/api/v1/shoes/1/', data={'size': 50})
+        response = api_client.patch(f'/api/v1/shoes/{shoe["id"]}/', data={'size': 50})
 
         assert 200 == response.status_code
 
@@ -46,7 +46,7 @@ class TestShoesViewSetPatch:
             assert value == shoe.get(f'{key}')
         assert 50 == shoe.get('size')
 
-    @pytest.mark.orient_db()
+    @pytest.mark.django_db()
     def test_must_return_not_found(self, api_client):
         response = api_client.patch('/api/v1/shoes/unknown_id/', data={'size': 50})
         assert 404 == response.status_code
@@ -62,14 +62,14 @@ class TestShoesViewSetPost:
 class TestShoesViewSetPut:
     def test_must_return_not_allowed(self, api_client, shoe, shoe_data):
         shoe_data['size'] = 50
-        response = api_client.put('/api/v1/shoes/1/', data=shoe_data)
+        response = api_client.put(f'/api/v1/shoes/{shoe["id"]}/', data=shoe_data)
 
         assert 200 == response.status_code
 
 
 class TestShoesViewSetDelete:
     def test_must_return_not_allowed(self, api_client, shoe):
-        response = api_client.delete('/api/v1/shoes/1/')
+        response = api_client.delete(f'/api/v1/shoes/{shoe["id"]}/')
 
         assert 204 == response.status_code
 

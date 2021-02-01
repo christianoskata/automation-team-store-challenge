@@ -43,6 +43,7 @@ def shoe(shoe_data):
     serializer = ShoesSerializer(data=shoe_data)
     serializer.is_valid()
     serializer.save()
+    return serializer.data
 
 
 @pytest.fixture()

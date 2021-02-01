@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
+from distutils.util import strtobool
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from decouple import config, Csv
+from dj_database_url import parse as dburl
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -79,11 +81,9 @@ WSGI_APPLICATION = 'dafiti_challenge.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': config(f'DATABASE_URL', default=default_dburl, cast=dburl),
 }
 
 
