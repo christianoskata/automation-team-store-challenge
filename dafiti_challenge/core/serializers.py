@@ -14,7 +14,8 @@ class ShoesSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         data = super(ShoesSerializer, self).to_internal_value(data)
         validated = data.copy()
-        validated['gross_price'] = self.calculate_gross_price(data)
+        if data.get('net_price') is not None and data.get('tax') is not None:
+            validated['gross_price'] = self.calculate_gross_price(data)
         return validated
 
     class Meta:
