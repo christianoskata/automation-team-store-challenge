@@ -11,9 +11,9 @@ class Shoes(models.Model):
     size = models.IntegerField(null=False, blank=False)
     quantity = models.IntegerField(null=False, blank=False)
     weight = models.FloatField(blank=True, null=True)
-    net_price = models.FloatField(null=False, blank=False)
-    tax = models.FloatField(null=False, blank=False, default=5.00)
-    gross_price = models.FloatField(null=False, blank=False)
+    net_price = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
+    tax = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
+    gross_price = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
 
     class Meta:
         ordering = ['-brand']
