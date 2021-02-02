@@ -1,4 +1,4 @@
-from dafiti_challenge.core.serializers import ShoesSerializer, ShoesUploadSerializer
+from apps.core.serializers import ShoesSerializer, ShoesUploadSerializer
 
 
 class TestShoesSerializer:

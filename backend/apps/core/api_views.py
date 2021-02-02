@@ -5,8 +5,8 @@ from django.forms import model_to_dict
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 
-from dafiti_challenge.core.models import Shoes
-from dafiti_challenge.core.serializers import ShoesSerializer, ShoesUploadSerializer
+from apps.core.models import Shoes
+from apps.core.serializers import ShoesSerializer, ShoesUploadSerializer
 
 
 class ShoesViewSet(viewsets.ModelViewSet):

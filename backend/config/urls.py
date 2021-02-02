@@ -1,4 +1,4 @@
-"""dafiti_challenge URL Configuration
+"""config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from dafiti_challenge.core.urls import router
+from apps.core.api import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('dafiti_challenge.core.urls')),
-    path('api/v1/', include(router.urls)),
+    path('api/v1/', include('apps.core.urls')),
+    path('api/v1/', include(api.urls)),
 ]

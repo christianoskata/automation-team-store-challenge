@@ -2,7 +2,7 @@ import pytest
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework.test import APIClient
 
-from dafiti_challenge.core.serializers import ShoesSerializer
+from apps.core.serializers import ShoesSerializer
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def shoe_data():
 
 @pytest.fixture()
 def csv_file():
-    file_bin = open("contrib/shoes.csv", "rb")
+    file_bin = open("apps/core/tests/shoes.csv", "rb")
     file = InMemoryUploadedFile(file_bin, 'file', 'shoes.csv', 'application/octet-stream', 569, None)
     data = {'encoding': 'utf-8', 'file': file}
     return data

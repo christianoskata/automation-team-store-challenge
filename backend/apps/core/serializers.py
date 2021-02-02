@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from dafiti_challenge.core.models import Shoes
+from apps.core.models import Shoes
 
 
 class ShoesSerializer(serializers.ModelSerializer):
