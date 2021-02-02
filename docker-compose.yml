@@ -1,14 +1,58 @@
 version: "3.7"
+
+volumes:
+  postgres_data: {}
+
 services:
   postgres:
     image: postgres:13.1-alpine
     volumes:
-      - /tmp/postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - dafiti-net
     ports:
       - "5432:5432"
     env_file: .env
+
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    networks:
+      - dafiti-net
+    command: /start.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file: .env
+
+  frontend:
+    image: node:10-alpine
+    command: npm run serve
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./frontend:/app
+    networks:
+      - dafiti-net
+    working_dir: /app
+    restart: on-failure
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - backend
+    volumes:
+      - ./backend/media/:/media/
+      - ./backend/staticfiles/:/staticfiles/
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - dafiti-net
+    ports:
+      - "8000:80"
+    logging:
+      driver: none
 
 networks:
   dafiti-net:

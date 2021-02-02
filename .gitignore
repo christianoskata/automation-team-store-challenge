@@ -19,7 +19,6 @@ lib64/
 parts/
 sdist/
 var/
-src/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -49,6 +48,7 @@ coverage.xml
 # Django stuff:
 *.log
 db.sqlite3
+*/staticfiles/
 
 # Sphinx documentation
 docs/_build/
@@ -58,3 +58,6 @@ target/
 
 # ignore PyCharm settings
 .idea/
+
+# npm
+*/node_modules/*

@@ -1,0 +1,54 @@
+version: '3.3'
+
+volumes:
+    postgres_data: {}
+
+services:
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    networks:
+      - dafiti-net
+    command: /gunicorn.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file: .env
+
+  postgres:
+    image: postgres:13.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dafiti-net
+    ports:
+      - "5432:5432"
+    env_file: .env
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    networks:
+      - dafiti-net
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./backend/media/:/media/
+      - ./backend/staticfiles/:/staticfiles/
+      - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
+
+networks:
+  dafiti-net:
+    name: dafiti-net
+    ipam:
+      config:
+      - subnet: 182.20.0.0/16
+
+
+
