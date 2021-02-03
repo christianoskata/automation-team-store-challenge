@@ -49,6 +49,7 @@ coverage.xml
 *.log
 db.sqlite3
 */staticfiles/
+backend/media
 
 # Sphinx documentation
 docs/_build/
@@ -60,4 +61,4 @@ target/
 .idea/
 
 # npm
-*/node_modules/*
+node_modules
