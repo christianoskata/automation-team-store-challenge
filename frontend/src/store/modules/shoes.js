@@ -23,9 +23,11 @@ const actions = {
       commit('addShoe', shoe)
     })
   },
-  deleteShoe( { commit }, shoeId) {
-    shoeService.deleteShoe(shoeId)
-    commit('deleteShoe', shoeId)
+  deleteShoe( { commit }, id) {
+    shoeService.deleteShoe(id)
+    .then(() => {
+      commit('deleteShoe', id)
+    })
   }
 }
 
@@ -36,8 +38,8 @@ const mutations = {
   addShoe(state, shoe) {
     state.shoes.push(shoe)
   },
-  deleteShoe(state, shoeId) {
-    state.shoes = state.shoes.filter(obj => obj.pk !== shoeId)
+  deleteShoe(state, id) {
+    state.shoes = state.shoes.filter(obj => obj.pk !== id)
   }
 }
 
