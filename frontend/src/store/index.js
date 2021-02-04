@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import shoes from './modules/shoes'
+import shoes from '@/store/modules/shoes'
 
 Vue.use(Vuex)
 

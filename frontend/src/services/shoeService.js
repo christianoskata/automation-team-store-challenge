@@ -9,8 +9,8 @@ export default {
     return api.post(`shoes/`, payload)
               .then(response => response.data)
   },
-  deleteShoe(msgId) {
-    return api.delete(`shoes/${msgId}`)
+  deleteShoe(id) {
+    return api.delete(`shoes/${id}`)
               .then(response => response.data)
   }
 }
