@@ -1,69 +1,168 @@
-# Automation Team - Programming Challenge
+### About
 
----
+Django API exposing an endpoint to manage shoes with a VueJs frontend to consume the API. 
 
-## Instructions
+* Version
+1.0
 
-- Fork this repository into your personal github account. All the work must be done on your personal forked repository. We will trust you to our hearts not to take "inspiration" from other available forks. ;)
+### How set up and run?
 
-- Create a branch from `master` (e.g. `develop`) and do all of your magic on this created branch ;)
+1. Configure project.
+```console
+git@github.com:azengard/automation-team-store-challenge.git
+cd automation-team-store-challenge
+git checkout develop
+cp .env-sampe .env
+```
 
-- Code (and document) up
+2. Run Project using Docker-Compose (Fast way)
+* Develop
+```console
+docker-compose up
+```
 
-- When finished, create a Pull Request from the created branch to master
+* Production
+```console
+docker-compose -f docker-compose-prod.yml
+```
 
-- Send an email to us with the Pull Request link on your personal forked repository - NOT on this repository. That way we can request access to review it and provide you feedback.
+After the containers are up and running you can access the project at [http://localhost:8000/](http://localhost:8000/)
 
----
+With the containers running you also may access some additional API documentations!
 
-## The Challenge
+* [Redoc](http://localhost:8000/docs/redoc/)
+* [Swagger](http://localhost:8000/docs/swagger/)
+* [Yaml API Doc](http://localhost:8000/docs/swagger.yaml)
+* [Json API Doc](http://localhost:8000/docs/swagger.json)
 
-- As a business requirement, choose a fashion-related resource. E.g. shoes, pants, shirts, etc...
+3. Run project locally
+```console
+python -m venv .dafiti-test
+source .dafiti-test/bin/activate
+cd backend
+pip install poetry
+poetry install
+```
 
-- Create a RESTful JSON API to expose CRUD (Create/Retrieve/Update/Delete) operations on this resource.
+**Important!** make sure postgres container are up.
+```console
+python manage.py migrate
+python manage.py runserver
+```
 
-- Create an endpoint to populate data into the model/table using a CSV file. One of the fields of the model/table must have its' value calculated based on 1 or more of the other ones.
+4. Run project tests
+**Important!** make sure postgres container are up and you inside backend folder.
+```console
+pytest
+```
 
-- Create a frontend that has a list of all resources. It must consume the backend API endpoint that lists the resources.
+### Docker services?
 
-- Provide a way for us to run your application locally with all of its' requirements (python and infrastructure-wide)
+####Backend
+* Django application, serve de API and communicate with database.
+```console
+docker-compose up backend
+```
 
----
+####Frontend
+* Vue application, this container is only used for development, that way you don't need to reload your application to see every change.
+```console
+docker-compose up frontend
+```
 
-## What will be taken into account
+####NGINX
+* Used to serve the Frontend application and handle the requests redirects to Backend.
+```console
+docker-compose up nginx
+```
 
-- Your understanding and conformity to the requirements (sections "Instructions" and "The Challenge" above).
+####Postgres
+* A robust and secure database.
+```console
+docker-compose up postgres
+```
 
-- Your development workflow
+### API endpoints
 
-- How you architecture the solution using python
+**Basepath: http://localhost:8000/api/v1**
 
-- Data sanitization and validation
+### **- GET- /shoes/**
+* Retrieve all Shoes item.
 
-- API documentation
+*Example:*
+```console
+curl http://localhost:8000/api/v1/shoes/
+```
 
-- Project documentation: the fashion-related resource you chose, how you structured the project and instructions to run your solution locally on an Ubuntu 18.04+ machine (backend and frontend). Feel free to add any other relevant information.
-
-- Automated tests
-
-- Code consistency (through automated formatters, linters, etc...)
-
----
-
-## **You will stand out from the crowd if**:
-
-- You handle the documentation with love and care (attention to details is a HUGE seller here)
-
-- The frontend consumes ALL the backend API endpoints of the resource, and even more if it provides ways to search for contents.
-
-- You use Docker - so we can run your application locally.
-
-- If you deploy the application somewhere remotely where we can interact with it (although we will still try to run it locally ;).
-
----
-
-## Frameworks, databases and other tooling
-
-In our team we architecture applications with microservices in mind. All new applications (and nowadays the majority of them) are developed on python 3.8+, django or flask, postgres as the database, redis as cache and celery/rabbitmq when we need to deal with processing/flows too long to finish on a request-response cycle. We package our applications as docker images and deploy with kubernetes using helm charts. But feel free to use frameworks, databases and tooling your are the most familiar with.
+*Success Response Code:* **200 - OK**
 
 
+### **- POST - /shoes/**
+* Create a new Shoe item.
+
+*Example:*
+```console
+curl -X POST "http://localhost:8000/api/v1/shoes/" -d "{  \"name\": \"string\",  \"brand\": \"string\",  
+\"ref\": \"string\",  \"material\": \"string\",  \"color\": \"string\",  \"description\": \"string\",  
+\"size\": 0,  \"quantity\": 0,  \"weight\": 0,  \"net_price\": 0,  \"tax\": 0}"
+```
+
+*Success Response Code:* **201 - CREATED**
+
+
+### **- GET (detail) - /shoes/{id}/**
+* Get a Shoe
+
+*Example:*
+```console
+curl "http://localhost:8000/api/v1/shoes/{id}/"
+```
+
+*Success Response Code:* **200 - OK**
+
+
+### **- PATCH - /shoes/{id}/**
+* Partial updates a Shoe item.
+
+*Example:*
+```console
+curl -X PATCH "http://localhost:8000/api/v1/shoes/{id}/" -d "{  \"name\": \"string\",  \"brand\": \"string\",  
+\"ref\": \"string\",  \"material\": \"string\",  \"color\": \"string\",  \"description\": \"string\",  
+\"size\": 0,  \"quantity\": 0,  \"weight\": 0,  \"net_price\": 0,  \"tax\": 0}"
+```
+
+*Success Response Code:* **200 - OK**
+
+
+### **- PUT - /shoes/{id}/**
+* Update a Shoe item.
+
+*Example:*
+```console
+curl -X PUT "http://localhost:8000/api/v1/shoes/{id}/" -d "{  \"name\": \"New Name\" }"
+```
+
+*Success Response Code:* **200 - OK**
+
+
+### **- DELETE - /shoes/{id}/**
+* Delete a Shoe item.
+
+*Example:*
+```console
+curl -X DELETE "http://localhost:8000/api/v1/shoes/{id}/"
+```
+
+*Success Response Code:* **204 - NO CONTENT**
+
+
+### **- POST - /shoes/csv/**
+* Upload a CSV Shoe list to bulk create Shoes items.
+
+*Example:*
+```console
+curl -F file=@{file_path} "http://localhost:8000/api/v1/shoes/csv"
+```
+**Tip** You can use the test csv file! backend/apps/core/tests/shoes.csv
+
+*Success Response Code:* **201 - CREATED**
