@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Shoes from "@/components/Shoes";
+import ShoesList from "@/components/ShoesList";
+import Csv from "@/components/Csv";
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,12 @@ export default new VueRouter({
     {
       path: '/',
       name: 'shoes',
-      component: Shoes
+      component: ShoesList
+    },
+    {
+      path: '/csv',
+      name: 'csv',
+      component: Csv
     }
   ]
 })

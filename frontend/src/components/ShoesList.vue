@@ -27,7 +27,7 @@
       <input
         class="btn btn-primary"
         type="submit"
-        value="Add"
+        value="Criar"
         @click="addShoe(
         { brand: brand, name: name, color: color, ref: ref, material: material, size: size,
                weight: weight, quantity: quantity, tax: tax, net_price: net_price, description: description
@@ -52,7 +52,6 @@
           <th scope="col">Lucro %</th>
           <th scope="col">Preço de Custo</th>
           <th scope="col">Preço Venda</th>
-          <th scope="col">Detalhes</th>
           <th scope="col">Deletar</th>
         </tr>
       </thead>
@@ -70,7 +69,6 @@
           <td> {{ shoe.tax }} </td>
           <td> {{ shoe.net_price }} </td>
           <td> {{ shoe.gross_price }} </td>
-          <td> <input class="btn btn-primary" type="submit" value="Detalhes" /> </td>
           <td> <input class="btn btn-danger" type="submit" @click="deleteShoe(shoe.id)" value="Deletar" /> </td>
         </tr>
       </tbody>
