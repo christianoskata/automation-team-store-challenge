@@ -86,12 +86,21 @@ docker-compose up postgres
 
 **Basepath: http://localhost:8000/api/v1**
 
-### **- GET- /shoes/**
-* Retrieve all Shoes item.
+### **- GET (list) - /shoes/**
+* Retrieve all Shoes items.
 
 *Example:*
 ```console
 curl http://localhost:8000/api/v1/shoes/
+```
+
+Query filter params:
+- name
+- brand
+
+*Example:*
+```console
+curl http://localhost:8000/api/v1/shoes/?name=<name>
 ```
 
 *Success Response Code:* **200 - OK**

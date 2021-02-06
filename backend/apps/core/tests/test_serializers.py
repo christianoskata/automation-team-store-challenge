@@ -35,5 +35,5 @@ class TestShoesSerializer:
 class TestShoesUploadSerializer:
 
     def test_payload_is_valid(self, csv_file):
-        serializer = ShoesUploadSerializer(data=csv_file)
+        serializer = ShoesUploadSerializer(data=csv_file.new())
         assert serializer.is_valid() is True

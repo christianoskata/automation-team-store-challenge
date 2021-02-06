@@ -24,11 +24,30 @@ class TestShoesViewSetGet:
 class TestShoesViewSetList:
 
     @pytest.mark.django_db()
-    def test_must_return_success(self, api_client, shoes_list):
+    def test_must_return_success(self, api_client, shoes):
         response = api_client.get('/api/v1/shoes/')
 
         assert 200 == response.status_code
         assert 10 == len(response.data)
+
+    @pytest.mark.django_db()
+    def test_filter_success(self, api_client, shoes):
+        filter_name = api_client.get('/api/v1/shoes/?name=Tenis Bolado')
+        filter_brand = api_client.get('/api/v1/shoes/?brand=Nide')
+        filter_name_brand = api_client.get('/api/v1/shoes/?name=Tenis Bolado&brand=Nide')
+
+        assert 3 == len(filter_name.data)
+        for data in filter_name.data:
+            assert 'Tenis Bolado' == data.get('name')
+
+        assert 4 == len(filter_brand.data)
+        for data in filter_brand.data:
+            assert 'Nide' == data.get('brand')
+
+        assert 2 == len(filter_name_brand.data)
+        for data in filter_name_brand.data:
+            assert 'Tenis Bolado' == data.get('name')
+            assert 'Nide' == data.get('brand')
 
 
 class TestShoesViewSetPatch:
@@ -53,14 +72,14 @@ class TestShoesViewSetPatch:
 
 
 class TestShoesViewSetPost:
-    def test_must_return_not_allowed(self, api_client, shoe_data):
+    def test_must_return_success(self, api_client, shoe_data):
         response = api_client.post('/api/v1/shoes/', data=shoe_data)
 
         assert 201 == response.status_code
 
 
 class TestShoesViewSetPut:
-    def test_must_return_not_allowed(self, api_client, shoe, shoe_data):
+    def test_must_return_success(self, api_client, shoe, shoe_data):
         shoe_data['size'] = 50
         response = api_client.put(f'/api/v1/shoes/{shoe["id"]}/', data=shoe_data)
 
@@ -68,15 +87,22 @@ class TestShoesViewSetPut:
 
 
 class TestShoesViewSetDelete:
-    def test_must_return_not_allowed(self, api_client, shoe):
+    def test_must_return_success_no_content(self, api_client, shoe):
         response = api_client.delete(f'/api/v1/shoes/{shoe["id"]}/')
 
         assert 204 == response.status_code
 
 
 class TestShoesUploadAPIViewPost:
-    def test_must_return_not_allowed(self, api_client, csv_file):
-        response = api_client.post('/api/v1/shoes/csv/', data=csv_file)
+    def test_must_return_success(self, api_client, csv_file):
+        response = api_client.post('/api/v1/shoes/csv/', data=csv_file.new())
 
         assert 201 == response.status_code
-        assert 6 == len(response.data)
+        assert 10 == len(response.data)
+
+    def test_must_not_duplicate_data(self, api_client, csv_file):
+        api_client.post('/api/v1/shoes/csv/', data=csv_file.new())
+        response = api_client.post('/api/v1/shoes/csv/', data=csv_file.new())
+
+        assert 201 == response.status_code
+        assert 0 == len(response.data)

@@ -1,6 +1,8 @@
-from rest_framework import serializers
+import csv
+import io
 
-from apps.core.models import Shoes
+from .models import Shoes
+from rest_framework import serializers
 
 
 class ShoesSerializer(serializers.ModelSerializer):
@@ -27,6 +29,20 @@ class ShoesSerializer(serializers.ModelSerializer):
 
 class ShoesUploadSerializer(serializers.Serializer):
     file = serializers.FileField()
+
+    @staticmethod
+    def handler_csv(file):
+        with io.TextIOWrapper(file, encoding='utf-8') as csv_file:
+            reader = csv.reader(csv_file)
+            headers = next(reader, None)
+
+            content = []
+            for row in reader:
+                row_data = {}
+                for header, value in zip(headers, row):
+                    row_data[header] = value
+                content.append(row_data)
+            return content
 
     class Meta:
         fields = ('file',)

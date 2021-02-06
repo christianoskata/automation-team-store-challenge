@@ -23,12 +23,15 @@ def shoe_data():
     return data
 
 
-@pytest.fixture()
+@pytest.fixture
 def csv_file():
-    file_bin = open("apps/core/tests/shoes.csv", "rb")
-    file = InMemoryUploadedFile(file_bin, 'file', 'shoes.csv', 'application/octet-stream', 569, None)
-    data = {'encoding': 'utf-8', 'file': file}
-    return data
+    class CsvFactory(object):
+        def new(self):
+            file_bin = open("apps/core/tests/shoes.csv", "rb")
+            file = InMemoryUploadedFile(file_bin, 'file', 'shoes.csv', 'application/octet-stream', 569, None)
+            data = {'encoding': 'utf-8', 'file': file}
+            return data
+    return CsvFactory()
 
 
 @pytest.fixture()
@@ -47,8 +50,6 @@ def shoe(shoe_data):
 
 
 @pytest.fixture()
-def shoes_list(shoe_data):
-    for i in range(10):
-        serializer = ShoesSerializer(data=shoe_data)
-        serializer.is_valid()
-        serializer.save()
+def shoes(api_client, shoe_data, csv_file):
+    shoes = api_client.post('/api/v1/shoes/csv/', data=csv_file.new())
+    return shoes
