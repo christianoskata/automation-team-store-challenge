@@ -1,12 +1,21 @@
 import shoeService from '@/services/shoeService'
+import router from '@/router'
 
 const state = {
-  shoes: []
+  shoes: [],
+  shoe: '',
+  success: false
 }
 
 const getters = {
   shoes: state => {
     return state.shoes
+  },
+  shoe: state => {
+    return state.shoe
+  },
+  isSuccess: state => {
+    return state.success
   }
 }
 
@@ -18,10 +27,28 @@ const actions = {
     })
     .catch(e => { console.log(e) })
   },
-  addShoe({ commit }, shoe) {
-    shoeService.postShoe(shoe)
+  getShoe ({ commit }, id) {
+    shoeService.detailShoe(id)
+    .then(shoe => {
+      commit('setSuccess', false)
+      commit('setShoe', shoe)
+      router.push({ name: 'shoeDetail', params: { id: id }, })
+    })
+    .catch(e => { console.log(e) })
+  },
+  addShoe({ commit }, payload) {
+    shoeService.postShoe(payload)
     .then(() => {
-      commit('addShoe', shoe)
+      commit('addShoe', payload)
+    })
+    .catch(e => { console.log(e) })
+  },
+  updateShoe({ commit }, shoe) {
+    console.log(`1 - Module updateShoe: ${shoe.id} ${shoe}`)
+    shoeService.putShoe(shoe.id, shoe)
+    .then(() => {
+      commit('setShoe', shoe)
+      commit('setSuccess', true)
     })
     .catch(e => { console.log(e) })
   },
@@ -37,6 +64,13 @@ const actions = {
 const mutations = {
   setShoes (state, shoes) {
     state.shoes = shoes
+  },
+  setShoe (state, shoe) {
+    console.log(`3 - mutation setShoe ${shoe}`)
+    state.shoe = shoe
+  },
+  setSuccess (state, status) {
+    state.success = status
   },
   addShoe (state, shoe) {
     state.shoes.push(shoe)

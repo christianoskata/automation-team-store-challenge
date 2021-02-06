@@ -52,6 +52,7 @@
           <th scope="col">Lucro %</th>
           <th scope="col">Preço de Custo</th>
           <th scope="col">Preço Venda</th>
+          <th scope="col">Detalhe</th>
           <th scope="col">Deletar</th>
         </tr>
       </thead>
@@ -69,6 +70,7 @@
           <td> {{ shoe.tax }} </td>
           <td> {{ shoe.net_price }} </td>
           <td> {{ shoe.gross_price }} </td>
+          <td> <input class="btn btn-primary" type="submit" @click="getShoe(shoe.id)" value="Detalhe" /> </td>
           <td> <input class="btn btn-danger" type="submit" @click="deleteShoe(shoe.id)" value="Deletar" /> </td>
         </tr>
       </tbody>
@@ -82,18 +84,18 @@ export default {
   name: "shoes",
   data() {
     return {
-      name: "",
-      brand: "",
-      ref: "",
-      material: "",
-      color: "",
-      size: "",
-      quantity: "",
-      net_price: "",
-      tax: "",
-      description: "",
-      weight: "",
-    };
+      name: '',
+      brand: '',
+      ref: '',
+      material: '',
+      color: '',
+      size: '',
+      quantity: '',
+      net_price: '',
+      tax: '',
+      description: '',
+      weight: ''
+    }
   },
   computed: mapState({
     shoes: state => state.shoes.shoes
@@ -101,7 +103,8 @@ export default {
   methods: mapActions('shoes', [
     'getShoes',
     'addShoe',
-    'deleteShoe'
+    'deleteShoe',
+    'getShoe'
   ]),
   created() {
     this.$store.dispatch('shoes/getShoes')
