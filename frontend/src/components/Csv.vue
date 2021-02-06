@@ -14,8 +14,16 @@
         v-on:click="sendCsv(csv.file)"
         :disabled="!csv.file">
     </div>
-    <p class="alert-success p-1 m-3" v-if="csv.success">Csv enviado com sucesso!</p>
   </div>
+  <b-modal id="modalCsv" size="md"  title="Csv" v-model="csv.show">
+    <template #csv> Csv </template>
+    <div class="d-block text-center">
+      <h3>Csv enviado com sucesso!</h3>
+    </div>
+    <div slot="modal-footer" class="">
+      <b-button class="mt-3" variant="primary" @click="csv.show=false" value="Fechar">Fechar</b-button>
+    </div>
+  </b-modal>
 </div>
 </template>
 
@@ -26,11 +34,10 @@ export default {
   data() {
     return {
       file: '',
-      success: ''
     };
   },
   computed: mapState({
-    csv: state => state.csv
+    csv: state => state.csv,
   }),
   methods: mapActions('csv', [
     'sendCsv',

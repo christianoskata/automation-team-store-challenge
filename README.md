@@ -1,8 +1,12 @@
 ### About
 
-Django API exposing an endpoint to manage shoes with a VueJs frontend to consume the API. 
+Django API exposing an endpoint to manage shoes with a VueJs frontend to consume the API.
 
-* Version
+#### Fashion-related resource: Shoes.
+
+#### Calculated Attribute: gross_price.
+
+### Version
 1.0
 
 ### How set up and run?
@@ -82,7 +86,23 @@ docker-compose up nginx
 docker-compose up postgres
 ```
 
-### API endpoints
+### API
+
+#### Attributes:
+- name: CharField, max_length=150
+- brand: CharField, max_length=100 
+- ref: CharField, max_length=15
+- material: CharField, max_length=100
+- color: CharField, max_length=100
+- description: TextField
+- size: IntegerField
+- quantity: IntegerField
+- weight: FloatField
+- net_price: DecimalField
+- tax: DecimalField
+- gross_price = DecimalField **Calculated field** ((net_price * tax)/100) + net_price 
+
+#### Endpoints
 
 **Basepath: http://localhost:8000/api/v1**
 

@@ -3,7 +3,7 @@
     <h1>Dafiti Challenge - Shoes</h1>
     <div id="nav">
       <router-link :to="{ name: 'shoes' }">Shoes List</router-link> |
-      <router-link :to="{ name: 'csv' }">CSV</router-link>
+      <router-link :to="{ name: 'csv' }">Upload CSV</router-link>
     </div>
     <router-view/>
   </div>

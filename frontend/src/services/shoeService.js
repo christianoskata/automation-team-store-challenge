@@ -14,7 +14,6 @@ export default {
               .then(response => response.data)
   },
   putShoe(id, payload) {
-    console.log(`2 - Service putShoe ${id}: ${payload}`)
     return api.put(`shoes/${id}`, payload)
               .then(response => response.data)
   },

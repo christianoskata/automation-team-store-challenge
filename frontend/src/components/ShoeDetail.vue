@@ -20,7 +20,6 @@
       </div>
       <div class="col-2 col-offset-2 d-flex flex-column align-items-end">
         <label>Preço de Custo <input type="number" v-model="shoe.net_price"></label>
-        <label>Preço de Venda <input type="number" v-model="shoe.gross_price" disabled></label>
         <label>Detalhes <input type="text" v-model="shoe.description"></label>
       </div>
     </div>
@@ -33,7 +32,15 @@
         :disabled="!shoe.name || !shoe.brand || !shoe.ref || !shoe.material || !shoe.color || !shoe.size ||
         !shoe.quantity || !shoe.net_price || !shoe.tax">
     </div>
-    <p class="alert-success p-1 m-3" v-if="success">Registro atualizado com sucesso!</p>
+    <b-modal id="modalList" size="md"  title="Create" v-model="shoes.show">
+      <template #shoe> Atualizar </template>
+      <div class="d-block text-center">
+        <h3>Calçado atualizado com sucesso!</h3>
+      </div>
+      <div slot="modal-footer" class="">
+        <b-button class="mt-3" variant="primary" @click="shoes.show=false" value="Fechar">Fechar</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -58,7 +65,7 @@ export default {
   },
   computed: mapState({
     shoe: state => state.shoes.shoe,
-    success: state => state.shoes.success
+    shoes: state => state.shoes
   }),
   methods: mapActions('shoes', [
     'detailShoe',

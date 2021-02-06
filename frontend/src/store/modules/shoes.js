@@ -4,7 +4,7 @@ import router from '@/router'
 const state = {
   shoes: [],
   shoe: '',
-  success: false
+  show: false
 }
 
 const getters = {
@@ -14,8 +14,8 @@ const getters = {
   shoe: state => {
     return state.shoe
   },
-  isSuccess: state => {
-    return state.success
+  show: state => {
+    return state.show
   }
 }
 
@@ -30,7 +30,6 @@ const actions = {
   getShoe ({ commit }, id) {
     shoeService.detailShoe(id)
     .then(shoe => {
-      commit('setSuccess', false)
       commit('setShoe', shoe)
       router.push({ name: 'shoeDetail', params: { id: id }, })
     })
@@ -40,15 +39,15 @@ const actions = {
     shoeService.postShoe(payload)
     .then(() => {
       commit('addShoe', payload)
+      commit('setShow', true)
     })
     .catch(e => { console.log(e) })
   },
   updateShoe({ commit }, shoe) {
-    console.log(`1 - Module updateShoe: ${shoe.id} ${shoe}`)
     shoeService.putShoe(shoe.id, shoe)
     .then(() => {
       commit('setShoe', shoe)
-      commit('setSuccess', true)
+      commit('setShow', true)
     })
     .catch(e => { console.log(e) })
   },
@@ -66,11 +65,10 @@ const mutations = {
     state.shoes = shoes
   },
   setShoe (state, shoe) {
-    console.log(`3 - mutation setShoe ${shoe}`)
     state.shoe = shoe
   },
-  setSuccess (state, status) {
-    state.success = status
+  setShow (state, status) {
+    state.show = status
   },
   addShoe (state, shoe) {
     state.shoes.push(shoe)

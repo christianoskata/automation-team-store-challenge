@@ -35,37 +35,40 @@
         :disabled="!name || !brand || !ref || !material || !color || !size || !quantity || !net_price || !tax">
       <hr/>
     </div>
+    <b-modal id="modalCreate" size="md"  title="Create" v-model="shoes.show">
+      <template #shoe> Criar </template>
+      <div class="d-block text-center">
+        <h3>Calçado cadastrado com sucesso!</h3>
+      </div>
+      <div slot="modal-footer" class="">
+        <b-button class="mt-3" variant="primary" @click="shoes.show=false" value="Fechar">Fechar</b-button>
+      </div>
+    </b-modal>
 
-    <p class="alert-danger" v-if="shoes.length === 0">Nenhum calçado cadastrado</p>
-    <table class="table" v-if="shoes.length != 0">
+    <p class="alert-danger" v-if="shoes_list.length === 0">Nenhum calçado cadastrado</p>
+    <table class="table" v-if="shoes_list.length != 0">
       <thead class="thead-dark">
         <tr>
           <th scope="col">Item</th>
           <th scope="col">Marca</th>
           <th scope="col">Nome</th>
           <th scope="col">Cor</th>
-          <th scope="col">Ref</th>
-          <th scope="col">Material</th>
           <th scope="col">Tamanho</th>
-          <th scope="col">Peso</th>
           <th scope="col">Quantidade</th>
-          <th scope="col">Lucro %</th>
-          <th scope="col">Preço de Custo</th>
+          <th scope="col">Taxa %</th>
+          <th scope="col">Preço Custo</th>
           <th scope="col">Preço Venda</th>
           <th scope="col">Detalhe</th>
           <th scope="col">Deletar</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(shoe, index) in shoes" :key="index">
+        <tr v-for="(shoe, index) in shoes_list" :key="index">
           <td> [{{index+1}}] </td>
           <td> {{ shoe.brand }} </td>
           <td> {{ shoe.name }} </td>
           <td> {{ shoe.color }} </td>
-          <td> {{ shoe.ref }} </td>
-          <td> {{ shoe.material }} </td>
           <td> {{ shoe.size }} </td>
-          <td> {{ shoe.weight }} </td>
           <td> {{ shoe.quantity }} </td>
           <td> {{ shoe.tax }} </td>
           <td> {{ shoe.net_price }} </td>
@@ -98,7 +101,8 @@ export default {
     }
   },
   computed: mapState({
-    shoes: state => state.shoes.shoes
+    shoes_list: state => state.shoes.shoes,
+    shoes: state => state.shoes
   }),
   methods: mapActions('shoes', [
     'getShoes',

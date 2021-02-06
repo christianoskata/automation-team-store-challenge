@@ -2,12 +2,12 @@ import csvService from '@/services/csvService'
 
 const state = {
   file: '',
-  success: false
+  show: false
 }
 
 const getters = {
-  isSuccess: state => {
-    return state.success
+  show: state => {
+    return state.show
   },
   file: state => {
     return state.file
@@ -27,7 +27,7 @@ const actions = {
 
     csvService.postCsv(formData)
       .then(function() {
-        commit('setSuccess', true)
+        commit('setShow', true)
       })
       .catch(e => {
         console.log(e)
@@ -36,8 +36,8 @@ const actions = {
 }
 
 const mutations = {
-  setSuccess (state, status) {
-    state.success = status
+  setShow (state, status) {
+    state.show = status
   },
   setFile (state, file) {
     state.file = file
