@@ -4,7 +4,9 @@ import router from '@/router'
 const state = {
   shoes: [],
   shoe: '',
-  show: false
+  show: false,
+  search_brand: '',
+  search_name: ''
 }
 
 const getters = {
@@ -14,14 +16,11 @@ const getters = {
   shoe: state => {
     return state.shoe
   },
-  show: state => {
-    return state.show
-  }
 }
 
 const actions = {
-  getShoes ({ commit }) {
-    shoeService.fetchShoes()
+  getShoes ({ commit }, params) {
+    shoeService.fetchShoes(params)
     .then(shoes => {
       commit('setShoes', shoes)
     })

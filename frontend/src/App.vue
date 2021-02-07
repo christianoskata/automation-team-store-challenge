@@ -5,6 +5,7 @@
       <router-link :to="{ name: 'shoes' }">Shoes List</router-link> |
       <router-link :to="{ name: 'csv' }">Upload CSV</router-link>
     </div>
+    <hr/>
     <router-view/>
   </div>
 </template>

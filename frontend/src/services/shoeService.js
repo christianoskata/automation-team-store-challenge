@@ -1,8 +1,8 @@
 import api from '@/services/api'
 
 export default {
-  fetchShoes() {
-    return api.get(`shoes/`)
+  fetchShoes(params) {
+    return api.get(`shoes/`, { params: { brand: params.search_brand, name: params.search_name }})
               .then(response => response.data)
   },
   detailShoe(id) {
