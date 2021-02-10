@@ -1,6 +1,6 @@
 from django.urls import re_path
 
-from .api_views import ShoesUploadAPIView
+from .views import ShoesUploadAPIView
 
 app_name = 'core'
 

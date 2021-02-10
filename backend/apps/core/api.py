@@ -1,7 +1,7 @@
 from rest_framework import routers
 
 # Settings
-from .api_views import ShoesViewSet
+from .views import ShoesViewSet
 
 api = routers.DefaultRouter()
 api.trailing_slash = '/?'
