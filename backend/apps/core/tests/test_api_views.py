@@ -1,9 +1,9 @@
 import pytest
 
 
+@pytest.mark.django_db()
 class TestShoesViewSetGet:
 
-    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoe, shoe_data):
         response = api_client.get('/api/v1/shoes/1/')
 
@@ -15,22 +15,20 @@ class TestShoesViewSetGet:
             assert value == shoe.get(f'{key}')
         assert '180.00' == shoe.get('gross_price')
 
-    @pytest.mark.django_db()
     def test_must_return_not_found(self, api_client):
         response = api_client.get('/api/v1/shoes/1/')
         assert 404 == response.status_code
 
 
+@pytest.mark.django_db()
 class TestShoesViewSetList:
 
-    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoes):
         response = api_client.get('/api/v1/shoes/')
 
         assert 200 == response.status_code
         assert 10 == len(response.data)
 
-    @pytest.mark.django_db()
     def test_filter_success(self, api_client, shoes):
         filter_name = api_client.get('/api/v1/shoes/?name=Tenis Bolado')
         filter_brand = api_client.get('/api/v1/shoes/?brand=Nide')
@@ -50,9 +48,9 @@ class TestShoesViewSetList:
             assert 'Nide' == data.get('brand')
 
 
+@pytest.mark.django_db()
 class TestShoesViewSetPatch:
 
-    @pytest.mark.django_db()
     def test_must_return_success(self, api_client, shoe, shoe_data):
         response = api_client.patch(f'/api/v1/shoes/{shoe["id"]}/', data={'size': 50})
 
@@ -65,7 +63,6 @@ class TestShoesViewSetPatch:
             assert value == shoe.get(f'{key}')
         assert 50 == shoe.get('size')
 
-    @pytest.mark.django_db()
     def test_must_return_not_found(self, api_client):
         response = api_client.patch('/api/v1/shoes/unknown_id/', data={'size': 50})
         assert 404 == response.status_code
