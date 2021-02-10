@@ -19,7 +19,7 @@
           <label>Quantidade <input type="number" v-model="quantity"></label>
           <label>Lucro %<input type="number" v-model="tax"></label>
         </div>
-        <div class="col-2 col-offset-2 d-flex flex-column align-items-end">
+        <div class="col-2 d-flex flex-column align-items-end">
           <label>Preço de Custo <input type="number" v-model="net_price"></label>
           <label>Detalhes <input type="text" v-model="description"></label>
         </div>
@@ -70,7 +70,7 @@
             <th scope="col">Cor</th>
             <th scope="col">Tamanho</th>
             <th scope="col">Quantidade</th>
-            <th scope="col">Taxa %</th>
+            <th scope="col">Lucro %</th>
             <th scope="col">Preço Custo</th>
             <th scope="col">Preço Venda</th>
             <th scope="col">Detalhe</th>
@@ -78,8 +78,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(shoe, index) in shoes_list" :key="index">
-            <td> [{{index+1}}] </td>
+          <tr v-for="shoe in shoes_list">
+            <td> {{ shoe.id }} </td>
             <td> {{ shoe.brand }} </td>
             <td> {{ shoe.name }} </td>
             <td> {{ shoe.color }} </td>

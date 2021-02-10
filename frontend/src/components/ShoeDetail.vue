@@ -32,7 +32,7 @@
         :disabled="!shoe.name || !shoe.brand || !shoe.ref || !shoe.material || !shoe.color || !shoe.size ||
         !shoe.quantity || !shoe.net_price || !shoe.tax">
     </div>
-    <b-modal id="modalList" size="md"  title="Create" v-model="shoes.show">
+    <b-modal id="modalList" size="md"  title="Update" v-model="shoes.show">
       <template #shoe> Atualizar </template>
       <div class="d-block text-center">
         <h3>Calçado atualizado com sucesso!</h3>
