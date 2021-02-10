@@ -16,7 +16,7 @@ Django API exposing an endpoint to manage shoes with a VueJs frontend to consume
 git@github.com:azengard/automation-team-store-challenge.git
 cd automation-team-store-challenge
 git checkout develop
-cp .env-sampe .env
+cp .env-sample .env
 ```
 
 2. Run Project using Docker-Compose (Fast way)
