@@ -5,8 +5,7 @@ const state = {
   shoes: [],
   shoe: '',
   show: false,
-  search_brand: '',
-  search_name: ''
+  search: '',
 }
 
 const getters = {

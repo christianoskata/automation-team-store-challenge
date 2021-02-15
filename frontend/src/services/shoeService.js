@@ -2,7 +2,7 @@ import api from '@/services/api'
 
 export default {
   fetchShoes(params) {
-    return api.get(`shoes/`, { params: { brand: params.search_brand, name: params.search_name }})
+    return api.get(`shoes/`, { params: { search: params.search }})
               .then(response => response.data)
   },
   detailShoe(id) {

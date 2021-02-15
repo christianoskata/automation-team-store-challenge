@@ -49,8 +49,7 @@
 
     <div>
       <p>Filtros</p><br/>
-      <label class="mr-2">Marca <input type="text" v-model="shoes.search_brand"></label>
-      <label class="mr-2">Nome <input type="text" v-model="shoes.search_name"></label>
+      <label class="mr-2">Pesquisar Marca ou Nome <input type="text" v-model="shoes.search"></label>
       <input
           class="btn btn-primary"
           type="submit"
@@ -127,7 +126,7 @@ export default {
     'getShoe'
   ]),
   created() {
-    this.$store.dispatch('shoes/getShoes', {search_brand: '', search_name: ''})
+    this.$store.dispatch('shoes/getShoes', {search: ''})
   },
 };
 </script>

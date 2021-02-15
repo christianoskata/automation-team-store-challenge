@@ -1,4 +1,5 @@
 from django.forms import model_to_dict
+from rest_framework import filters
 from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 
@@ -9,7 +10,8 @@ from .serializers import ShoesSerializer, ShoesUploadSerializer
 class ShoesViewSet(viewsets.ModelViewSet):
     queryset = Shoes.objects.all()
     serializer_class = ShoesSerializer
-    filterset_fields = ('name', 'brand')
+    search_fields = ['name', 'brand']
+    filter_backends = (filters.SearchFilter,)
 
 
 class ShoesUploadAPIView(generics.CreateAPIView):

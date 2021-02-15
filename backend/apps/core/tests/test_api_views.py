@@ -30,21 +30,21 @@ class TestShoesViewSetList:
         assert 10 == len(response.data)
 
     def test_filter_success(self, api_client, shoes):
-        filter_name = api_client.get('/api/v1/shoes/?name=Tenis Bolado')
-        filter_brand = api_client.get('/api/v1/shoes/?brand=Nide')
-        filter_name_brand = api_client.get('/api/v1/shoes/?name=Tenis Bolado&brand=Nide')
+        filter_name = api_client.get('/api/v1/shoes/?search=Tenis Bolado New')
+        filter_brand = api_client.get('/api/v1/shoes/?search=Nid')
+        filter_name_brand = api_client.get('/api/v1/shoes/?search=Tenis Bolado Nide')
 
-        assert 3 == len(filter_name.data)
+        assert 1 == len(filter_name.data)
         for data in filter_name.data:
-            assert 'Tenis Bolado' == data.get('name')
+            assert 'Tenis Bolado' in data.get('name')
 
         assert 4 == len(filter_brand.data)
         for data in filter_brand.data:
             assert 'Nide' == data.get('brand')
 
-        assert 2 == len(filter_name_brand.data)
+        assert 3 == len(filter_name_brand.data)
         for data in filter_name_brand.data:
-            assert 'Tenis Bolado' == data.get('name')
+            assert 'Tenis Bolado' in data.get('name')
             assert 'Nide' == data.get('brand')
 
 
